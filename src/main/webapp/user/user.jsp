@@ -1,4 +1,7 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.model.Article" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.blog.UserArticleDao" %><%--
   Created by IntelliJ IDEA.
   User: admin
   Date: 03.02.2024
@@ -24,5 +27,22 @@
     </textarea></p><br><br>
     <input type="submit"/>
 </form>
+<center>
+    <table>
+    <%
+        UserArticleDao userArticleDao = new UserArticleDao();
+        String user = request.getRemoteUser();
+        List<Article> list = userArticleDao.findAllArticlesByUser(user);
+        for (Article a: list) { %>
+            <tr>
+                <td>
+                    <a href="articleDetails.jsp?id=<%= a.getId() %>"> <h1><%= a.getTitle() %></h1></a>
+                    <p><%= a.getDescription() %></p>
+                </td>
+            </tr>
+        <% } %>
+
+</table>
+</center>
 </body>
 </html>
