@@ -14,19 +14,30 @@
     <title>User</title>
 </head>
 <body>
+<center>
+    <table>
+        <thead>
+        <tr>
+            <td>
+                <a href="../index.jsp"><img src="../images/logo.png"/></a>
+            </td>
+            <td>
+                <a href="createArticle.jsp"><img onmouseover="src='../images/but_new_in.png'"
+                                             onmouseout="src='../images/but_new.png'" src="../images/but_new.png"></a>
+            </td>
+            <td>
+                <a href="../logout-servlet"><img onmouseover="src='../images/but_logout_in.png'"
+                                             onmouseout="src='../images/but_logout.png'" src="../images/but_logout.png"></a>
+            </td>
+            <td>
+                <a href="user.jsp"><img  src="../images/user.png" width="150" height="150"></a>
+            </td>
+        </tr>
+        </thead>
+    </table>
+</center>
 <h2>Hello</h2>
 <%=request.getUserPrincipal().getName()%><br><br>
-<a href="../logout-servlet">LogOut</a><br><br>
-<form method="post" action="../article-servlet">
-    <p>Title:<br>
-    <input type="text" name="title"/><br><br>
-    </p><p>Description:<br>
-    <input type="text" name="description"/><br><br>
-    </p><p>Content:<br>
-    <textarea  name="content">
-    </textarea></p><br><br>
-    <input type="submit"/>
-</form>
 <center>
     <table>
     <%
@@ -38,6 +49,12 @@
                 <td>
                     <a href="articleDetails.jsp?id=<%= a.getId() %>"> <h1><%= a.getTitle() %></h1></a>
                     <p><%= a.getDescription() %></p>
+                </td>
+                <td>
+                    <a href="updateArticle.jsp?id=<%= a.getId() %>">Update</a>
+                </td>
+                <td>
+                    <a href="deleteArticle.jsp?id=<%=  a.getId() %>">Delete</a>
                 </td>
             </tr>
         <% } %>

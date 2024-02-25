@@ -1,20 +1,14 @@
-<%@ page import="com.blog.UserArticleDao" %>
-<%@ page import="com.model.Article" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: admin
-  Date: 13.02.2024
-  Time: 17:53
+  Date: 25.02.2024
+  Time: 18:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    int id = Integer.parseInt(request.getParameter("id"));
-    UserArticleDao userArticleDao = new UserArticleDao();
-    Article article = userArticleDao.findArticleById(id);
-%>
 <html>
 <head>
-    <title><%= article.getTitle() %></title>
+    <title>Create Article</title>
 </head>
 <body>
 <center>
@@ -26,7 +20,7 @@
             </td>
             <td>
                 <a href="createArticle.jsp"><img onmouseover="src='../images/but_new_in.png'"
-                                                 onmouseout="src='../images/but_new.png'" src="../images/but_new.png"></a>
+                                             onmouseout="src='../images/but_new.png'" src="../images/but_new.png"></a>
             </td>
             <td>
                 <a href="../logout-servlet"><img onmouseover="src='../images/but_logout_in.png'"
@@ -40,10 +34,16 @@
     </table>
 </center>
 <center>
-    <h3>Id: <%= article.getId() %></h3> <br>
-    <h3>Description: <%= article.getDescription()%></h3><br>
-    <h3>Content: <%= article.getContent() %></h3><br>
-    <h3>User: <%= article.getUser() %></h3>
+    <form method="post" action="../article-servlet">
+        <p>Title:<br>
+            <input type="text" name="title"/><br><br>
+        </p><p>Description:<br>
+        <input type="text" name="description"/><br><br>
+    </p><p>Content:<br>
+        <textarea  name="content">
+    </textarea></p><br><br>
+        <input type="submit"/>
+    </form>
 </center>
 </body>
 </html>
