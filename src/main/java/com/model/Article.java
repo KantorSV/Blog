@@ -1,11 +1,39 @@
 package com.model;
 
+import java.util.Date;
+
 public class Article {
     private int id;
     private String title;
     private String description;
     private String content;
     private String user;
+    private int view, likes;
+    private Date modificationDate;
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
 
     public int getId() {
         return id;
