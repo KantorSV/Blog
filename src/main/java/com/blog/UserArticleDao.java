@@ -60,6 +60,20 @@ public class UserArticleDao {
         }
     }
 
+    public void updateArticleById(Article article) {
+        String sql = "update article set title=?, description=?, content=?, modification_date=now() where id=?";
+        try (Connection connection = findDataSource().getConnection()){
+            PreparedStatement ps = connection.prepareCall(sql);
+            ps.setString(1, article.getTitle());
+            ps.setString(2, article.getDescription());
+            ps.setString(3, article.getContent());
+            ps.setInt(4, article.getId());
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private DataSource findDataSource() {
         try {
             InitialContext initialContext = new InitialContext();

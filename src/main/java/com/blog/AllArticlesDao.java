@@ -16,7 +16,8 @@ public class AllArticlesDao {
     public List<Article> findLatestArticles() {
         List<Article> list = new ArrayList<>();
         try (Connection connection = findDataSource().getConnection()){
-            PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by modification_date desc;");
+            PreparedStatement ps = connection.prepareStatement("select * from article join users on " +
+                                                                    "article.author=users.id order by modification_date desc");
             ResultSet set =  ps.executeQuery();
             while (set.next()) {
                 Article article = new Article();
@@ -27,6 +28,7 @@ public class AllArticlesDao {
                 article.setView(set.getInt("view"));
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
+                article.setId(set.getInt("id"));
                 list.add(article);
             }
             return list;
@@ -38,7 +40,7 @@ public class AllArticlesDao {
     public List<Article> findMostViewArticles() {
         List<Article> list = new ArrayList<>();
         try (Connection connection = findDataSource().getConnection()){
-            PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by view desc;");
+            PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by view desc");
             ResultSet set =  ps.executeQuery();
             while (set.next()) {
                 Article article = new Article();
@@ -49,6 +51,7 @@ public class AllArticlesDao {
                 article.setView(set.getInt("view"));
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
+                article.setId(set.getInt("id"));
                 list.add(article);
             }
             return list;
@@ -60,7 +63,7 @@ public class AllArticlesDao {
     public List<Article> findMostLikesArticles() {
         List<Article> list = new ArrayList<>();
         try (Connection connection = findDataSource().getConnection()){
-            PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by likes desc;");
+            PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by likes desc");
             ResultSet set =  ps.executeQuery();
             while (set.next()) {
                 Article article = new Article();
@@ -71,9 +74,56 @@ public class AllArticlesDao {
                 article.setView(set.getInt("view"));
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
+                article.setId(set.getInt("id"));
                 list.add(article);
             }
             return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Article> findMostDislikesArticles() {
+        List<Article> list = new ArrayList<>();
+        try (Connection connection = findDataSource().getConnection()){
+            PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by likes desc");
+            ResultSet set =  ps.executeQuery();
+            while (set.next()) {
+                Article article = new Article();
+                article.setUser(set.getString("login"));
+                article.setTitle(set.getString("title"));
+                article.setDescription(set.getString("description"));
+                article.setContent(set.getString("content"));
+                article.setView(set.getInt("view"));
+                article.setLikes(set.getInt("likes"));
+                article.setModificationDate(set.getDate("modification_date"));
+                article.setId(set.getInt("id"));
+                list.add(article);
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Article finById(int id) {
+        try (Connection connection = findDataSource().getConnection()){
+            PreparedStatement ps = connection.prepareCall("select * from article join users on article.author=users.id where article.id =?");
+            ps.setInt(1, id);
+            ResultSet set = ps.executeQuery();
+            Article article = null;
+            while (set.next()) {
+                article = new Article();
+                article.setUser(set.getString("login"));
+                article.setTitle(set.getString("title"));
+                article.setDescription(set.getString("description"));
+                article.setContent(set.getString("content"));
+                article.setView(set.getInt("view"));
+                article.setLikes(set.getInt("likes"));
+                article.setModificationDate(set.getDate("modification_date"));
+                article.setId(set.getInt("id"));
+            }
+            return article;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

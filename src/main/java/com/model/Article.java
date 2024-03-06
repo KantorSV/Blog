@@ -8,7 +8,18 @@ public class Article {
     private String description;
     private String content;
     private String user;
-    private int view, likes;
+    private int view;
+    private int likes;
+
+    public int getDislike() {
+        return dislike;
+    }
+
+    public void setDislike(int dislike) {
+        this.dislike = dislike;
+    }
+
+    private int dislike;
     private Date modificationDate;
 
     public int getView() {

@@ -9,37 +9,45 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="../style/login.css">
 </head>
-<body>
+<body style="background-color: #232E35">
 <center>
-    <table>
+    <table class="table">
         <thead>
         <tr>
             <td>
-                <a href="../index.jsp"><img src="../images/logo.png"/></a>
+                <a href="../index.jsp"><img onmouseover="src='../imagesKantor/homeW.png'"
+                                            onmouseout="src='../imagesKantor/home.png'"
+                                            src="../imagesKantor/home.png" title="Home" width="150" height="150"/></a>
             </td>
             <td>
-                <a href="../signup.jsp"><img onmouseover="src='../images/but_new_in.png'"
-                                          onmouseout="src='../images/but_new.png'" src="../images/but_new.png"></a>
+                <a href="../signup.jsp"><img onmouseover="src='../imagesKantor/newW.png'"
+                                                 onmouseout="src='../imagesKantor/new.png'"
+                                                 src="../imagesKantor/new.png" title="Create Account" width="150"
+                                                 height="150"/></a>
             </td>
             <td>
-                <a href="user/user.jsp"><img onmouseover="src='../images/but_login_in.png'"
-                                             onmouseout="src='../images/but_login.png'" src="../images/but_login.png"></a>
+                <a href="user/user.jsp"><img onmouseover="src='../imagesKantor/loginW.png'"
+                                             onmouseout="src='../imagesKantor/login.png'"
+                                             src="../imagesKantor/login.png" title="Log In" width="150" height="150"/></a>
             </td>
         </tr>
         </thead>
     </table>
 </center>
 <center>
-<form method="post" action="j_security_check">
-    <p>Login:<br>
-        <input type="text" name="j_username">
-    </p>
-    <p>Password:<br>
-        <input type="password" name="j_password">
-    </p>
-    <input type="submit"/>
-</form>
+    <div class="form-box">
+        <form method="post" action="j_security_check">
+            <p><h3 style="color: #8daef6">Login:</h3>
+            <input style="background-color: #ffffff" type="text" name="j_username"/>
+            </p>
+            <p><h3 style="color: #8daef6">Password:</h3>
+            <input style="background-color:#ffffff" type="password" name="j_password"/>
+            </p>
+            <br><button id="button" type="submit">OK</button>
+        </form>
+    </div>
 </center>
 </body>
 </html>

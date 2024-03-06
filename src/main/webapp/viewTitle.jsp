@@ -1,21 +1,22 @@
 <%@ page import="com.blog.AllArticlesDao" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.model.Article" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+<%@ page import="com.model.Article" %><%--
+  Created by IntelliJ IDEA.
+  User: admin
+  Date: 04.03.2024
+  Time: 18:00
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% int id = Integer.parseInt(request.getParameter("id"));
+    AllArticlesDao allArticlesDao = new AllArticlesDao();
+    Article article = allArticlesDao.finById(id);
+%>
 <html>
 <head>
-    <title>Blog</title>
-    <link rel="stylesheet" href="style/index.css">
+    <title>Title</title>
+    <link rel="stylesheet" href="style/viewTitle.css">
 </head>
-<body style="background-color: #232E35;">
-<% AllArticlesDao allArticlesDao = new AllArticlesDao();
-    List<Article> latestArticle = allArticlesDao.findLatestArticles();
-    List<Article> mostView = allArticlesDao.findMostViewArticles();
-    List<Article> mostLikes = allArticlesDao.findMostLikesArticles();
-    List<Article> mostDislike = allArticlesDao.findMostDislikesArticles();
-%>
+<body style="background-color: #232E35">
 <center>
     <table class="table_1">
         <thead>
@@ -47,7 +48,7 @@
             <td>
                 <a href="logout-servlet"><img onmouseover="src='imagesKantor/logoutW.png'"
                                               onmouseout="src='imagesKantor/logout.png'"
-                                              src="imagesKantor/logout.png" title="Log Out" width="150"
+                                              src="imagesKantor/logout.png" title="Log Out" idth="150"
                                               height="150"/></a>
             </td>
             <td>
@@ -63,38 +64,32 @@
     </table>
 </center>
 <center>
-    <table class="table_2">
+    <table class="table_1">
         <tr class="tr">
             <th class="th"><h3>User</h3></th>
             <th class="th"><h3>Title</h3></th>
             <th class="th"><h3>Description</h3></th>
+            <th class="th"><h3>Content</h3></th>
             <th class="th"><h3>View</h3></th>
             <th class="th"><h3>Likes</h3></th>
             <th class="th"><h3>Dislikes</h3></th>
         </tr>
-        <% for (int i = 0; i < latestArticle.size(); i++) {%>
-        <tr>
-            <td class="td">
-                <%= latestArticle.get(i).getUser() %>
+        <tr class="tr">
+            <td class="td"><%= article.getUser() %>
             </td>
-            <td class="td">
-                <a href="viewTitle.jsp?id=<%= latestArticle.get(i).getId() %>"><%= latestArticle.get(i).getTitle() %>
-                </a>
+            <td class="td"><%= article.getTitle()%>
             </td>
-            <td class="td">
-                <%= latestArticle.get(i).getDescription()%>
+            <td class="td"><%= article.getDescription() %>
             </td>
-            <td class="td">
-                <%= mostView.get(i).getView() %>
+            <td class="td"><%= article.getContent() %>
             </td>
-            <td class="td">
-                <%= mostLikes.get(i).getLikes() %>
+            <td class="td"><%= article.getView() %>
             </td>
-            <td class="td">
-                <%= mostDislike.get(i).getDislike() %>
+            <td class="td"><%= article.getLikes() %>
+            </td>
+            <td class="td"><%= article.getDislike() %>
             </td>
         </tr>
-        <% } %>
     </table>
 </center>
 </body>

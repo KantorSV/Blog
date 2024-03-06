@@ -15,31 +15,57 @@
 <html>
 <head>
     <title><%= article.getTitle() %></title>
+    <link rel="stylesheet" href="../style/articleDetails.css">
 </head>
-<body>
+<body style="background-color: #232E35">
 <center>
-    <table>
+    <table class="table_1">
         <thead>
         <tr>
             <td>
-                <a href="../index.jsp"><img src="../images/logo.png"/></a>
+                <a href="../index.jsp"><img onmouseover="src='../imagesKantor/homeW.png'"
+                                         onmouseout="src='../imagesKantor/home.png'"
+                                         src="../imagesKantor/home.png" title="Home" width="150" height="150"/></a>
+            </td>
+            <% if (request.getRemoteUser() == null) { %>
+            <td>
+                <a href="../signup.jsp"><img onmouseover="src='../imagesKantor/newW.png'"
+                                          onmouseout="src='../imagesKantor/new.png'"
+                                          src="../imagesKantor/new.png" title="Create Account" width="150"
+                                          height="150"/></a>
             </td>
             <td>
-                <a href="createArticle.jsp"><img onmouseover="src='../images/but_new_in.png'"
-                                                 onmouseout="src='../images/but_new.png'" src="../images/but_new.png"></a>
+                <a href="user.jsp"><img onmouseover="src='../imagesKantor/loginW.png'"
+                                             onmouseout="src='../imagesKantor/login.png'"
+                                             src="../imagesKantor/login.png" title="Log In" width="150" height="150"/></a>
+            </td>
+            <% } else { %>
+            <td>
+                <a href="createArticle.jsp"><img onmouseover="src='../imagesKantor/newW.png'"
+                                                      onmouseout="src='../imagesKantor/new.png'"
+                                                      src="../imagesKantor/new.png" title="Log In" width="150"
+                                                      height="150"/></a>
             </td>
             <td>
-                <a href="../logout-servlet"><img onmouseover="src='../images/but_logout_in.png'"
-                                                 onmouseout="src='../images/but_logout.png'" src="../images/but_logout.png"></a>
+                <a href="logout-servlet"><img onmouseover="src='../imagesKantor/logoutW.png'"
+                                              onmouseout="src='../imagesKantor/logout.png'"
+                                              src="../imagesKantor/logout.png" title="Log Out" idth="150"
+                                              height="150"/></a>
             </td>
             <td>
-                <a href="user.jsp"><img  src="../images/user.png" width="150" height="150"></a>
+                <a href="user.jsp"><img onmouseover="src='../imagesKantor/userW.png'"
+                                             onmouseout="src='../imagesKantor/user.png'"
+                                             src="../imagesKantor/user.png" title="My Cabinet" width="150"
+                                             height="150"/></a>
             </td>
+            <% } %>
+
         </tr>
         </thead>
     </table>
 </center>
 <center>
+    <br><br>
     <h3>Id: <%= article.getId() %></h3> <br>
     <h3>Description: <%= article.getDescription()%></h3><br>
     <h3>Content: <%= article.getContent() %></h3><br>
