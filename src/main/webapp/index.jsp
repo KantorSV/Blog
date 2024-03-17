@@ -11,10 +11,8 @@
 </head>
 <body style="background-color: #232E35;">
 <% AllArticlesDao allArticlesDao = new AllArticlesDao();
+
     List<Article> latestArticle = allArticlesDao.findLatestArticles();
-    List<Article> mostView = allArticlesDao.findMostViewArticles();
-    List<Article> mostLikes = allArticlesDao.findMostLikesArticles();
-    List<Article> mostDislike = allArticlesDao.findMostDislikesArticles();
 %>
 <center>
     <table class="table_1">
@@ -60,7 +58,7 @@
 
         </tr>
         </thead>
-    </table>
+    </table><br><br><br>
 </center>
 <center>
     <table class="table_2">
@@ -85,13 +83,13 @@
                 <%= latestArticle.get(i).getDescription()%>
             </td>
             <td class="td">
-                <%= mostView.get(i).getView() %>
+                <%= latestArticle.get(i).getView() %>
             </td>
             <td class="td">
-                <%= mostLikes.get(i).getLikes() %>
+                <%= latestArticle.get(i).getLikes() %>
             </td>
             <td class="td">
-                <%= mostDislike.get(i).getDislike() %>
+                <%= latestArticle.get(i).getDislike() %>
             </td>
         </tr>
         <% } %>

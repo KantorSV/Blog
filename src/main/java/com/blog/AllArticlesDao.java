@@ -29,6 +29,7 @@ public class AllArticlesDao {
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
                 article.setId(set.getInt("id"));
+                article.setDislike(set.getInt("dislikes"));
                 list.add(article);
             }
             return list;
@@ -52,6 +53,7 @@ public class AllArticlesDao {
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
                 article.setId(set.getInt("id"));
+                article.setDislike(set.getInt("dislikes"));
                 list.add(article);
             }
             return list;
@@ -75,6 +77,7 @@ public class AllArticlesDao {
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
                 article.setId(set.getInt("id"));
+                article.setDislike(set.getInt("dislikes"));
                 list.add(article);
             }
             return list;
@@ -98,6 +101,7 @@ public class AllArticlesDao {
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
                 article.setId(set.getInt("id"));
+                article.setDislike(set.getInt("dislikes"));
                 list.add(article);
             }
             return list;
@@ -122,8 +126,39 @@ public class AllArticlesDao {
                 article.setLikes(set.getInt("likes"));
                 article.setModificationDate(set.getDate("modification_date"));
                 article.setId(set.getInt("id"));
+                article.setDislike(set.getInt("dislikes"));
             }
             return article;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void increaseViewForArticle(int id) {
+        try (Connection connection = findDataSource().getConnection()) {
+            PreparedStatement ps = connection.prepareCall("update article set view=view+1 where id=?");
+            ps.setInt(1, id);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void increaseLikesForArticle(int id) {
+        try (Connection connection = findDataSource().getConnection()) {
+            PreparedStatement ps = connection.prepareCall("update article set likes=likes+1 where id=?");
+            ps.setInt(1, id);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void increaseDislikesForArticle(int id) {
+        try (Connection connection = findDataSource().getConnection()) {
+            PreparedStatement ps = connection.prepareCall("update article set dislikes=dislikes+1 where id=?");
+            ps.setInt(1, id);
+            ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

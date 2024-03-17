@@ -8,7 +8,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% int id = Integer.parseInt(request.getParameter("id"));
+    String increaseView = request.getParameter("increaseView");
     AllArticlesDao allArticlesDao = new AllArticlesDao();
+
+    if (increaseView == null || Boolean.parseBoolean(increaseView)) {
+        allArticlesDao.increaseViewForArticle(id);
+    }
+
     Article article = allArticlesDao.finById(id);
 %>
 <html>
@@ -62,6 +68,7 @@
         </tr>
         </thead>
     </table>
+    <br><br><br>
 </center>
 <center>
     <table class="table_1">
@@ -89,6 +96,22 @@
             </td>
             <td class="td"><%= article.getDislike() %>
             </td>
+        </tr>
+    </table>
+
+</center>
+<center>
+    <table class="table_1">
+
+        <br><br>
+        <tr>
+            <td><a href="dislike-servlet?id=<%=id%>"><img onmouseover="src='imagesKantor/dislikeW.png'"
+                                onmouseout="src='imagesKantor/dislike.png'"
+                                src="imagesKantor/dislike.png" title="Dislike"/></a></td>
+
+            <td><a href="like-servlet?id=<%=id%>"><img onmouseover="src='imagesKantor/likeW.png'"
+                                onmouseout="src='imagesKantor/like.png'"
+                                src="imagesKantor/like.png" title="Like"/></a></td>
         </tr>
     </table>
 </center>
