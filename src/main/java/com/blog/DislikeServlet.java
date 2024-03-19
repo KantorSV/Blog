@@ -8,16 +8,17 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet (name = "dislikeServlet", urlPatterns = "/dislike-servlet")
+@WebServlet (name = "dislikeServlet", urlPatterns = "/user/dislike-servlet")
 public class DislikeServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int id = Integer.parseInt(req.getParameter("id"));
+        String user = req.getRemoteUser();
         AllArticlesDao allArticlesDao = new AllArticlesDao();
-        allArticlesDao.increaseDislikesForArticle(id);
+        allArticlesDao.increaseDislikesForArticle(id, user);
 
-        resp.sendRedirect("viewTitle.jsp?increaseView=false&id=" + id);
+        resp.sendRedirect("../viewTitle.jsp?increaseView=false&id=" + id);
     }
 }

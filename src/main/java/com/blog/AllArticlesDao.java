@@ -15,10 +15,10 @@ import java.util.List;
 public class AllArticlesDao {
     public List<Article> findLatestArticles() {
         List<Article> list = new ArrayList<>();
-        try (Connection connection = findDataSource().getConnection()){
+        try (Connection connection = findDataSource().getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select * from article join users on " +
-                                                                    "article.author=users.id order by modification_date desc");
-            ResultSet set =  ps.executeQuery();
+                    "article.author=users.id order by modification_date desc");
+            ResultSet set = ps.executeQuery();
             while (set.next()) {
                 Article article = new Article();
                 article.setUser(set.getString("login"));
@@ -40,9 +40,9 @@ public class AllArticlesDao {
 
     public List<Article> findMostViewArticles() {
         List<Article> list = new ArrayList<>();
-        try (Connection connection = findDataSource().getConnection()){
+        try (Connection connection = findDataSource().getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by view desc");
-            ResultSet set =  ps.executeQuery();
+            ResultSet set = ps.executeQuery();
             while (set.next()) {
                 Article article = new Article();
                 article.setUser(set.getString("login"));
@@ -64,9 +64,9 @@ public class AllArticlesDao {
 
     public List<Article> findMostLikesArticles() {
         List<Article> list = new ArrayList<>();
-        try (Connection connection = findDataSource().getConnection()){
+        try (Connection connection = findDataSource().getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by likes desc");
-            ResultSet set =  ps.executeQuery();
+            ResultSet set = ps.executeQuery();
             while (set.next()) {
                 Article article = new Article();
                 article.setUser(set.getString("login"));
@@ -88,9 +88,9 @@ public class AllArticlesDao {
 
     public List<Article> findMostDislikesArticles() {
         List<Article> list = new ArrayList<>();
-        try (Connection connection = findDataSource().getConnection()){
+        try (Connection connection = findDataSource().getConnection()) {
             PreparedStatement ps = connection.prepareStatement("select * from article join users on article.author=users.id order by likes desc");
-            ResultSet set =  ps.executeQuery();
+            ResultSet set = ps.executeQuery();
             while (set.next()) {
                 Article article = new Article();
                 article.setUser(set.getString("login"));
@@ -111,7 +111,7 @@ public class AllArticlesDao {
     }
 
     public Article finById(int id) {
-        try (Connection connection = findDataSource().getConnection()){
+        try (Connection connection = findDataSource().getConnection()) {
             PreparedStatement ps = connection.prepareCall("select * from article join users on article.author=users.id where article.id =?");
             ps.setInt(1, id);
             ResultSet set = ps.executeQuery();
@@ -144,29 +144,57 @@ public class AllArticlesDao {
         }
     }
 
-    public void increaseLikesForArticle(int id) {
+    public void increaseLikesForArticle(int id, String login) {
         try (Connection connection = findDataSource().getConnection()) {
-            PreparedStatement ps = connection.prepareCall("update article set likes=likes+1 where id=?");
-            ps.setInt(1, id);
-            ps.execute();
+            PreparedStatement ps2 = connection.prepareStatement("select count(*) from user_article_like where user_id=(select id from users where login = ?) " +
+                    "and article_id=?");
+            ps2.setString(1, login);
+            ps2.setInt(2, id);
+            ResultSet res = ps2.executeQuery();
+            res.next();
+            int count = res.getInt(1);
+            if (count == 0) {
+                PreparedStatement ps = connection.prepareCall("update article set likes=likes+1 where id=?");
+                ps.setInt(1, id);
+                ps.execute();
+                PreparedStatement ps1 = connection.prepareStatement("insert into user_article_like(user_id, article_id, type)" +
+                        "values((select id from users where login = ?), ?, 'like')");
+                ps1.setString(1, login);
+                ps1.setInt(2, id);
+                ps1.execute();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void increaseDislikesForArticle(int id) {
+    public void increaseDislikesForArticle(int id, String login) {
         try (Connection connection = findDataSource().getConnection()) {
-            PreparedStatement ps = connection.prepareCall("update article set dislikes=dislikes+1 where id=?");
-            ps.setInt(1, id);
-            ps.execute();
+            PreparedStatement ps2 = connection.prepareStatement("select count(*) from user_article_like where user_id=(select id from users where login = ?) " +
+                    "and article_id=?");
+            ps2.setString(1, login);
+            ps2.setInt(2, id);
+            ResultSet res = ps2.executeQuery();
+            res.next();
+            int count = res.getInt(1);
+            if (count == 0) {
+                PreparedStatement ps = connection.prepareCall("update article set dislikes=dislikes+1 where id=?");
+                ps.setInt(1, id);
+                ps.execute();
+                PreparedStatement ps1 = connection.prepareStatement("insert into user_article_like(user_id, article_id, type)" +
+                        "values((select id from users where login = ?), ?, 'dislike')");
+                ps1.setString(1, login);
+                ps1.setInt(2, id);
+                ps1.execute();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private DataSource findDataSource () {
+    private DataSource findDataSource() {
         try {
-            InitialContext initialContext= new InitialContext();
+            InitialContext initialContext = new InitialContext();
             return (DataSource) initialContext.lookup("java:comp/env/blogDS");
         } catch (NamingException e) {
             throw new RuntimeException(e);

@@ -105,11 +105,11 @@
 
         <br><br>
         <tr>
-            <td><a href="dislike-servlet?id=<%=id%>"><img onmouseover="src='imagesKantor/dislikeW.png'"
+            <td><a href="user/dislike-servlet?id=<%=id%>"><img onmouseover="src='imagesKantor/dislikeW.png'"
                                 onmouseout="src='imagesKantor/dislike.png'"
                                 src="imagesKantor/dislike.png" title="Dislike"/></a></td>
 
-            <td><a href="like-servlet?id=<%=id%>"><img onmouseover="src='imagesKantor/likeW.png'"
+            <td><a href="user/like-servlet?id=<%=id%>"><img onmouseover="src='imagesKantor/likeW.png'"
                                 onmouseout="src='imagesKantor/like.png'"
                                 src="imagesKantor/like.png" title="Like"/></a></td>
         </tr>
