@@ -12,7 +12,35 @@
 <body style="background-color: #232E35;">
 <% AllArticlesDao allArticlesDao = new AllArticlesDao();
 
-    List<Article> latestArticle = allArticlesDao.findLatestArticles();
+    int limit = 5;
+    int pageNumber = 0;
+    String limitParam = request.getParameter("limit");
+    String pageNumberParam = request.getParameter("pageNumber");
+
+    if (limitParam != null && pageNumberParam != null) {
+        limit = Integer.parseInt(limitParam);
+        pageNumber = Integer.parseInt(pageNumberParam);
+    }
+
+    int count = allArticlesDao.findAllArticlesCount();
+
+    int lastPageNumber=0;
+
+    if (count % limit == 0) {
+        lastPageNumber = count / limit;
+    }else {
+        lastPageNumber = count / limit + 1;
+    }
+
+    if (limit * pageNumber > count) {
+        pageNumber = lastPageNumber - 1;
+    }
+
+    if (pageNumber < 0) {
+        pageNumber = 0;
+    }
+
+    List<Article> latestArticle = allArticlesDao.findLatestArticles(pageNumber, limit);
 %>
 <center>
     <table class="table_1">
@@ -93,6 +121,27 @@
             </td>
         </tr>
         <% } %>
+    </table>
+</center>
+<center>
+    <br><br><table class="table_2">
+        <tr class="tr">
+            <td class="td">
+                <a href="index.jsp?limit=<%= limit %>&pageNumber=0">First</a>
+            </td>
+            <td class="td">
+                <a href="index.jsp?limit=<%= limit %>&pageNumber=<%= pageNumber - 1 %>">Prev</a>
+            </td>
+            <td class="td">
+                <%= pageNumber %>
+            </td>
+            <td class="td">
+                <a href="index.jsp?limit=<%= limit %>&pageNumber=<%= pageNumber + 1 %>">Next</a>
+            </td>
+            <td class="td">
+                <a href="index.jsp?limit=<%= limit %>&pageNumber=<%= lastPageNumber - 1 %>">Last</a>
+            </td>
+        </tr>
     </table>
 </center>
 </body>

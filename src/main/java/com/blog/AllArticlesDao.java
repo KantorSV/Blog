@@ -38,6 +38,44 @@ public class AllArticlesDao {
         }
     }
 
+    public List<Article> findLatestArticles(int pageNumber, int limit) {
+        List<Article> list = new ArrayList<>();
+        try (Connection connection = findDataSource().getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("select * from article join users on " +
+                    "article.author=users.id order by modification_date desc limit ? offset ?");
+            ps.setInt(1, limit);
+            ps.setInt(2, limit * pageNumber);
+            ResultSet set = ps.executeQuery();
+            while (set.next()) {
+                Article article = new Article();
+                article.setUser(set.getString("login"));
+                article.setTitle(set.getString("title"));
+                article.setDescription(set.getString("description"));
+                article.setContent(set.getString("content"));
+                article.setView(set.getInt("view"));
+                article.setLikes(set.getInt("likes"));
+                article.setModificationDate(set.getDate("modification_date"));
+                article.setId(set.getInt("id"));
+                article.setDislike(set.getInt("dislikes"));
+                list.add(article);
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int findAllArticlesCount () {
+        try (Connection connection = findDataSource().getConnection()){
+            PreparedStatement ps = connection.prepareStatement("SELECT count(*) FROM blog.article;");
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Article> findMostViewArticles() {
         List<Article> list = new ArrayList<>();
         try (Connection connection = findDataSource().getConnection()) {
