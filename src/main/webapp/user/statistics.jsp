@@ -46,10 +46,10 @@
 <center>
     <table class="table_1">
         <thead>
-        <tr>
-            <td>
+        <tr class="tr">
+            <td class="td">
                 <img src="../statistics?chartType=bar"/></td>
-            <td>
+            <td class="td">
                 <img src="../statistics?chartType=pie"/></td>
         </tr>
         </thead>
