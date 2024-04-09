@@ -11,6 +11,7 @@
     <title>Statistics</title>
     <link rel="stylesheet" href="../style/user.css">
 </head>
+<% int articleId = Integer.parseInt(request.getParameter("articleId")); %>
 <body style="background-color: #232E35;">
 <center>
     <table class="table_1">
@@ -48,9 +49,9 @@
         <thead>
         <tr class="tr">
             <td class="td">
-                <img src="../statistics?chartType=bar"/></td>
+                <img src="../statistics?chartType=bar&articleId=<%= articleId %>"/></td>
             <td class="td">
-                <img src="../statistics?chartType=pie"/></td>
+                <img src="../statistics?chartType=pie&articleId=<%= articleId %>"/></td>
         </tr>
         </thead>
     </table>

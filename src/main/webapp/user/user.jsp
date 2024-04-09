@@ -67,7 +67,7 @@
                 <a href="deleteArticle.jsp?id=<%=  a.getId() %>">Delete</a>
             </td>
             <td class="td">
-                <a href="statistics.jsp">Statistic</a>
+                <a href="statistics.jsp?articleId=<%=  a.getId() %>">Statistic</a>
             </td>
         </tr>
         <% } %>

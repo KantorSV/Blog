@@ -53,6 +53,9 @@ public class UserArticleDao {
                 article.setDescription(rs.getString("description"));
                 article.setContent(rs.getString("content"));
                 article.setUser(rs.getString("login"));
+                article.setView(rs.getInt("view"));
+                article.setLikes(rs.getInt("likes"));
+                article.setDislike(rs.getInt("dislikes"));
             }
             return article;
         } catch (SQLException e) {
