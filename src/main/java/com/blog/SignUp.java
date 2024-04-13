@@ -25,6 +25,7 @@ public class SignUp extends HttpServlet {
         String role = "user";
         createUser(login,password,role);
         resp.sendRedirect("user/user.jsp");
+
     }
 
     private void createUser(String login, String password, String role) {
